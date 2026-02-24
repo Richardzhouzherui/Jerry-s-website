@@ -1,0 +1,535 @@
+/* ===== 布局与舞台 ===== */
+.book-wrap {
+  position: relative;
+  /* 👇 【摊平页整体大小】调整这里的 1120px 和 86vw 来控制书本展开时的宽度 */
+  width: min(86vw, 1200px);
+  /* 👇 【摊平页整体位置】目前设置为向右偏移 10vw，您可以修改这个数值来继续调整 */
+  margin-left: 10vw;
+  margin-right: auto;
+  /* 或者修改这里的 paddingTop (24px) 也能影响上下距离 */
+  padding: 15px 0 8px;
+  perspective: 1800px;
+  /* 立体深度 */
+  user-select: none;
+  pointer-events: none;
+  /* 默认穿透，避免遮挡背后网格 */
+}
+
+/* 👈 首页 Section 01 专用：锁定原始稳定尺寸，不受全局摊开页的位置偏移影响 */
+.book-wrap.landing-section-01-book {
+  width: min(86vw, 1120px) !important;
+  padding: 24px 0 8px !important;
+  margin: 0 auto !important;
+  /* 👈 强制保持水平居中，不再受全局偏移影响 */
+  margin-top: 0 !important;
+}
+
+
+.book {
+  position: relative;
+  width: 100%;
+  /* 正方形跨页效果：高度=宽度的一半，保证两页各正方形 */
+  aspect-ratio: 2 / 1;
+  /* 两页合起来是2:1，每页是1:1 */
+  transform-style: preserve-3d;
+}
+
+/* ===== 书脊（中缝）内嵌阴影 ===== */
+.page-spine-shadow {
+  position: absolute;
+  top: 50%;
+  width: var(--spine-shadow-width, 60px);
+  height: var(--spine-shadow-height, 100%);
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none;
+  opacity: var(--spine-shadow-opacity, 0.7);
+}
+
+/* 右边页面的左侧阴影（中缝向右扩散） */
+.shadow-right {
+  left: 0;
+  background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 10%,
+      /* 1. 黑色阴影结束的位置 */
+      rgba(200, 200, 200, 0.5) 30%,
+      /* 2. 白光开始最亮的位置 (控制靠近中缝侧) */
+      rgba(200, 200, 200, 0.7) 40%,
+      /* 3. 白光维持高亮的位置 (控制远离中缝侧) */
+      rgba(200, 200, 200, 0) 80%);
+  /* 4. 白光彻底消失的位置 */
+}
+
+/* 左边页面的右侧阴影（中缝向左扩散） */
+.shadow-left {
+  right: 0;
+  background: linear-gradient(270deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 10%,
+      rgba(200, 200, 200, 0.5) 30%,
+      /* 白光内侧起点 */
+      rgba(200, 200, 200, 0.7) 40%,
+      /* 白光外侧起点 */
+      rgba(200, 200, 200, 0) 80%);
+}
+
+/* ===== 固定页（当前跨页的左右两页） ===== */
+.page {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.page-left {
+  left: 0;
+  transform-origin: right center;
+  border-radius: 8px 0 0 8px;
+  box-shadow:
+    inset -14px 0 28px rgba(0, 0, 0, 0.25),
+    -1px 0px 4px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.page-right {
+  right: 0;
+  transform-origin: left center;
+  border-radius: 0 8px 8px 0;
+  box-shadow:
+    inset 14px 0 28px rgba(0, 0, 0, 0.25),
+    4px 6px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.page img,
+.page-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  /* 重要：首页 01 图片必须完美铺满方形内页区域 */
+  background: #fff;
+  display: block;
+}
+
+.page-placeholder {
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: #999;
+  background: repeating-linear-gradient(135deg,
+      #fafafa 0 12px,
+      #f3f3f3 12px 24px);
+}
+
+/* 页面高光（细微玻璃感） */
+.page-gloss {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg,
+      rgba(255, 255, 255, 0.16) 0%,
+      rgba(255, 255, 255, 0.06) 35%,
+      rgba(255, 255, 255, 0.0) 55%);
+  mix-blend-mode: screen;
+}
+
+/* 交互页面的悬停效果（模拟翻书的准备动作） */
+.interactive-page {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.page-right.interactive-page:hover {
+  transform: rotateY(-8deg);
+  box-shadow:
+    inset 14px 0 28px rgba(0, 0, 0, 0.25),
+    12px 14px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+.page-left.interactive-page:hover {
+  transform: rotateY(8deg);
+  box-shadow:
+    inset -14px 0 28px rgba(0, 0, 0, 0.25),
+    -12px 14px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ===== 翻页叶片（动画时的那一页） ===== */
+.leaf {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  z-index: 50;
+}
+
+/* 右翻页：从右到左覆盖 */
+.leaf-right {
+  right: 0;
+  transform-origin: left center;
+  border-radius: 0 8px 8px 0;
+}
+
+/* 左翻页：从左到右覆盖 */
+.leaf-left {
+  left: 0;
+  transform-origin: right center;
+  border-radius: 8px 0 0 8px;
+}
+
+/* 叶片的两个面（正反） */
+.leaf-face {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: inherit;
+  background-color: #fff;
+}
+
+/* 正面：显示当前页图像 */
+.leaf-front {
+  transform: rotateY(0deg) translateZ(0.01px);
+}
+
+.leaf-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  background: #fff;
+  filter: none;
+}
+
+/* 背面：纸色/纸纹 + 轻噪点（翻过去背面可见） */
+.leaf-back {
+  transform: rotateY(180deg);
+  background: #f4f1e6;
+}
+
+.leaf-back.with-tint {
+  background: #fff;
+}
+
+/* 翻页动态阴影（跟随角度移动） */
+.leaf-shadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at var(--shadow-x, 0%) 50%,
+      rgba(0, 0, 0, 0.35) 0%,
+      rgba(0, 0, 0, 0.18) 35%,
+      rgba(0, 0, 0, 0.0) 70%);
+  filter: blur(10px);
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+}
+
+.leaf-right .leaf-shadow {
+  --shadow-x: 0%;
+}
+
+.leaf-left .leaf-shadow {
+  --shadow-x: 100%;
+}
+
+/* ===== 控件 ===== */
+.book-controls {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: center;
+}
+
+/* 👈 闭合状态隐藏控制栏空间，防止底部留白 */
+.is-closed .book-controls {
+  display: none;
+}
+
+.book-btn {
+  background: transparent;
+  color: #111;
+  border: 1px solid #111;
+  width: var(--nav-btn-width, 70px);
+  height: var(--nav-btn-height, 35px);
+  padding: 0;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: 'DotPixel', 'Courier New', monospace;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto !important;
+  /* 👈 强制开启交互 */
+  cursor: pointer !important;
+  z-index: 200;
+}
+
+.book-btn.fixed-left {
+  position: fixed;
+  top: 50%;
+  left: 2vw;
+  /* 调整这两个数值控制边距，越小越贴边 */
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+.book-btn.fixed-right {
+  position: fixed;
+  top: 50%;
+  right: 2vw;
+  /* 调整这两个数值控制边距，越小越贴边 */
+  transform: translateY(-50%);
+  z-index: 100;
+}
+
+.book-btn:hover:not(:disabled) {
+  background: #111;
+  color: #fff;
+}
+
+.book-btn:disabled {
+  opacity: 0.15;
+  cursor: default;
+}
+
+.book-pager {
+  color: #444;
+  font-size: 14px;
+  letter-spacing: normal;
+}
+
+
+/* ===== 闭合状态与展开动画 ===== */
+.book-wrap.is-closed {
+  perspective: 2000px;
+  padding: 0;
+  margin: 0 auto !important;
+  /* 👈 强制居中，修复左右偏移 */
+  margin-top: -20px;
+  /* ← 封面垂直位置：数字越大越靠下，负值越靠上 */
+}
+
+.book-wrap .book,
+.book-wrap .click-hint-wrap,
+.book-wrap .book-controls {
+  pointer-events: auto;
+  /* 仅让书本身和交互元素拦截鼠标 */
+}
+
+.book-wrap.is-closed .book {
+  cursor: pointer;
+  transform: rotateX(calc(var(--mouse-y, 0) * 10deg)) rotateY(calc(var(--mouse-x, 0) * 15deg)) translateZ(0px) !important;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+  width: 50%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  /* overflow 移至 cover-visual-content，不在这里裁副以保留阴影 */
+}
+
+.book-wrap.is-open .book {
+  transform: none !important;
+  transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.spine {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.2) 46%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(0, 0, 0, 0.2) 54%,
+      rgba(0, 0, 0, 0) 100%);
+  z-index: 3;
+}
+
+.book-closed-view .spine {
+  display: none;
+}
+
+/* 闭合状态隐藏内页，防止内页图片从封面边缘闪出 */
+.book-closed-view .page {
+  visibility: hidden;
+}
+
+
+/* 厚度层 */
+.side-pages-stack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.side-page-layer {
+  position: absolute;
+  inset: 0;
+  background: #fdfdfd;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.book-cover-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+}
+
+.cover-group {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cover-visual-content {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1;
+  background: #fff;
+}
+
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-overlay-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  /* 铺满封面，完全贴紧 */
+  pointer-events: none;
+  z-index: 2;
+}
+
+.click-hint-wrap {
+  position: absolute;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ===== 详情面板 (Gallery Overlay) ===== */
+.gallery-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 28vh;
+  /* 👈 【高度调整】原本是 38vh，现在调矮了 */
+  background: rgba(255, 255, 255, 0.45);
+  /* 👇 【磨砂度调整】修改这里的 25px 数值，越小越清晰，越大越模糊 */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid #111;
+  z-index: 50;
+  display: flex;
+  padding: 2vw 0;
+  box-sizing: border-box;
+}
+
+.overlay-left {
+  width: 50%;
+  /* 👈 强制 50% 占比 */
+  min-width: 0;
+  /* 防止子元素撑开容器 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3vw;
+  /* 👈 设置左右边距，确保不紧贴边缘 */
+  box-sizing: border-box;
+  /* 移除 overflow: hidden 确保不被裁切，配合字号缩放 */
+}
+
+.overlay-right {
+  flex: 0 0 50%;
+  width: 50%;
+  /* 👈 强制 50% 占比 */
+  min-width: 0;
+  padding-left: 2vw;
+  padding-right: 5vw;
+  /* 保持右边缘间距 */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  /* 恢复自动滚动 */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.overlay-right::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overlay-right::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.pixel-title {
+  font-family: 'DiandianPixel', sans-serif;
+  /* 👇 增大字号，同时通过容器 padding 确保不被裁切 */
+  font-size: min(4vw, 85px);
+  color: #454545;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.content-text {
+  margin: auto 0;
+  /* 👈 核心：当内容短时垂直居中，内容长时自动回顶 */
+  font-family: 'iekietongzhenti', sans-serif;
+  font-size: 16px;
+  color: #454545;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  text-align: justify;
+  text-indent: 0 !important;
+}
+
+.content-text p {
+  margin: 0;
+  /* 👈 去掉段落间空行 */
+  padding: 0;
+}
+
+.content-text .drop-cap {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  display: inline-block;
+  /* 👈 允许使用 transform 微调 */
+  transform: translateY(-2px);
+  /* 👈 向上提一点，对齐文本顶端 */
+  vertical-align: top;
+  margin-right: 2px;
+  color: #454545;
+}
+
+.click-hint-img {
+  width: 320px;
+  height: auto;
+}
