@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
 import { getAssetPath } from '../utils/paths';
 
