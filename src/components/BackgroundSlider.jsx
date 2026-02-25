@@ -1,4 +1,5 @@
 import React from 'react';
+import { getAssetPath } from '../utils/paths';
 
 /**
  * BackgroundSlider Component
@@ -39,7 +40,7 @@ const PROJECT_IMAGES = [
     "image 551.png",
     "image 553.png",
     "系统设计.png"
-].map(name => `/design/${encodeURIComponent(name)}`);
+].map(name => getAssetPath(`/design/${encodeURIComponent(name)}`));
 
 const BackgroundSlider = React.memo(({ opacity = 1 }) => {
     // Generate content for seamless loop

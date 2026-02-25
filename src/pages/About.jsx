@@ -1,5 +1,4 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getAssetPath } from "../utils/paths";
 
@@ -178,25 +177,25 @@ export default function About({ backgroundPath }) {
                     }}
                     className="fixed left-4 md:left-8 top-[calc(35%+35px)] z-[110] hover:opacity-70 transition-opacity"
                 >
-                    <img src="/arrow-left.png" alt="Back" className="w-8 h-auto scale-x-[-1] invert" />
+                    <img src={getAssetPath("/arrow-left.png")} alt="Back" className="w-8 h-auto scale-x-[-1] invert" />
                 </button>
 
                 <div className="relative w-full max-w-6xl mx-auto h-full flex items-center justify-center">
                     {/* Decorative Images - Absolute positioned in hero section, above other photos */}
                     <img
-                        src="/designer.png"
+                        src={getAssetPath("/designer.png")}
                         alt=""
                         className={`absolute z-30 pointer-events-none ${imgDesignerScale} ${imgDesignerSize}`}
                         style={{ top: imgDesignerPos.top, left: imgDesignerPos.left }}
                     />
                     <img
-                        src="/group-38.png"
+                        src={getAssetPath("/group-38.png")}
                         alt=""
                         className={`absolute z-30 pointer-events-none ${imgGroup38Scale} ${imgGroup38Size}`}
                         style={{ top: imgGroup38Pos.top, right: imgGroup38Pos.right }}
                     />
                     <img
-                        src="/group-1739332834.png"
+                        src={getAssetPath("/group-1739332834.png")}
                         alt=""
                         className={`absolute z-30 pointer-events-none ${imgGroupNewScale} ${imgGroupNewSize}`}
                         style={{ bottom: imgGroupNewPos.bottom, left: imgGroupNewPos.left }}
@@ -231,7 +230,7 @@ export default function About({ backgroundPath }) {
                                 scale: photo1Scale,
                             }}
                         >
-                            <img src="/photos/hero-1.png" alt="" className="w-full h-auto" />
+                            <img src={getAssetPath("/photos/hero-1.png")} alt="" className="w-full h-auto" />
                         </motion.div>
                     </motion.div>
 
@@ -263,7 +262,7 @@ export default function About({ backgroundPath }) {
                                 scale: photo2Scale,
                             }}
                         >
-                            <img src="/photos/hero-2.png" alt="" className="w-full h-auto" />
+                            <img src={getAssetPath("/photos/hero-2.png")} alt="" className="w-full h-auto" />
                         </motion.div>
                     </motion.div>
 
@@ -295,7 +294,7 @@ export default function About({ backgroundPath }) {
                                 scale: photo3Scale,
                             }}
                         >
-                            <img src="/photos/hero-3.png" alt="" className="w-full h-auto" />
+                            <img src={getAssetPath("/photos/hero-3.png")} alt="" className="w-full h-auto" />
                         </motion.div>
                     </motion.div>
 
@@ -327,7 +326,7 @@ export default function About({ backgroundPath }) {
                                 scale: photo4Scale,
                             }}
                         >
-                            <img src="/photos/hero-4.png" alt="" className="w-full h-auto" />
+                            <img src={getAssetPath("/photos/hero-4.png")} alt="" className="w-full h-auto" />
                         </motion.div>
                     </motion.div>
                 </div>
@@ -452,7 +451,7 @@ export default function About({ backgroundPath }) {
 
                         {/* Thank You Image - Bottom Left within the same area */}
                         <div className="absolute bottom-0 left-0 w-72 md:w-[900px] translate-y-[20%]">
-                            <img src="/thank-you-group.png" alt="Thank you" className="w-full h-auto" />
+                            <img src={getAssetPath("/thank-you-group.png")} alt="Thank you" className="w-full h-auto" />
                         </div>
                     </div>
                 </div>

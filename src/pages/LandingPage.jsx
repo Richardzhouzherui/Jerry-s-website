@@ -373,10 +373,10 @@ export default function LandingPage() {
 
     // Phoalbum Data for Preview
     const phoalbumItems = [
-        { src: "/photography/page_1_01.png", alt: "01-1" },
-        { src: "/photography/page_1_02.png", alt: "01-2" },
-        { src: "/photography/page_2_01.png", alt: "02-1" },
-        { src: "/photography/page_2_02.png", alt: "02-2" },
+        { src: getAssetPath("/photography/page_1_01.png"), alt: "01-1" },
+        { src: getAssetPath("/photography/page_1_02.png"), alt: "01-2" },
+        { src: getAssetPath("/photography/page_2_01.png"), alt: "02-1" },
+        { src: getAssetPath("/photography/page_2_02.png"), alt: "02-2" },
     ];
 
     return (
@@ -515,7 +515,7 @@ export default function LandingPage() {
                     to="/about"
                     className="hover:opacity-70 transition-opacity block"
                 >
-                    <img src="/arrow-left.png" alt="" className="w-8 h-auto" />
+                    <img src={getAssetPath("/arrow-left.png")} alt="" className="w-8 h-auto" />
                 </Link>
             </motion.div>
 
@@ -550,7 +550,7 @@ export default function LandingPage() {
                 }}
             >
                 <div className="relative flex items-start gap-4">
-                    <img src="/arrow-top-left.png" alt="" className="w-10 h-auto pointer-events-none" />
+                    <img src={getAssetPath("/arrow-top-left.png")} alt="" className="w-10 h-auto pointer-events-none" />
                     <div className="font-['Xiaodou'] text-[#545454] space-y-0 pointer-events-none" style={{ fontSize: "19px", lineHeight: "1.2", marginTop: "120px" }}>
                         <p>Pull down a bit</p>
                         <p className="ml-4">about this website...</p>
@@ -630,7 +630,7 @@ export default function LandingPage() {
                                                 Yes... This is Jerry.Z
                                             </p>
                                             <img
-                                                src="/arrow-jerry.png"
+                                                src={getAssetPath("/arrow-jerry.png")}
                                                 alt=""
                                                 className="w-12 h-auto mt-2"
                                                 style={{ transform: "rotate(0deg) scaleX(1) scale(1.6) translateX(12px)" }}
@@ -728,7 +728,7 @@ export default function LandingPage() {
                                     in the world!
                                     {/* Red Cross Image - Now overlapping this text */}
                                     <img
-                                        src="/red-cross.png"
+                                        src={getAssetPath("/red-cross.png")}
                                         alt=""
                                         className="absolute bottom-[-50%] right-[-5%] md:right-[-5%] w-32 md:w-48 h-auto pointer-events-none z-50"
                                         style={{ transform: "rotate(5deg) scale(1.3)" }}
@@ -765,7 +765,7 @@ export default function LandingPage() {
                         }}
                     >
                         <img
-                            src="/arrow-down.png"
+                            src={getAssetPath("/arrow-down.png")}
                             alt=""
                             className="w-8 h-auto animate-bounce opacity-70"
                             style={{
@@ -933,7 +933,7 @@ export default function LandingPage() {
                                     transition={{ delay: 0.8, duration: 0.25, ease: [0.76, 0, 0.24, 1] }}
                                 >
                                     <video
-                                        src="/video-intro.mp4"
+                                        src={getAssetPath("/video-intro.mp4")}
                                         className="w-full h-full object-cover"
                                         playsInline
                                         onMouseEnter={(e) => {
@@ -1085,7 +1085,7 @@ export default function LandingPage() {
                                     <div className="relative w-full mt-8">
                                         {/* Write down image above the line (Independent positioning) */}
                                         <div className="absolute top-0 left-0 right-0 mx-auto" style={{ transform: "translateY(-60%) translateX(320px)", marginTop: "90px", maxWidth: phase2ContentMaxWidth, padding: phase2ContentPadding, pointerEvents: "none", zIndex: 1 }}>
-                                            <img src="/writedown.png" alt="Write down" className="w-auto h-auto max-w-full origin-top" style={{ scale: 0.32 }} />
+                                            <img src={getAssetPath("/writedown.png")} alt="Write down" className="w-auto h-auto max-w-full origin-top" style={{ scale: 0.32 }} />
                                         </div>
 
                                         {/* Centered Divider Line (40% opacity) */}
@@ -1099,7 +1099,7 @@ export default function LandingPage() {
                                                 className="absolute top-[12px] right-0 w-8 h-8 border border-[#111] bg-[#F2F2F2] group/pencil hover:bg-[#111] transition-colors cursor-pointer flex items-center justify-center mr-[48px]"
                                                 onClick={() => setShowEditOverlay(true)}
                                             >
-                                                <img src="/icons/pencil.png" alt="Edit" className="w-5 h-5 group-hover/pencil:invert transition-all" />
+                                                <img src={getAssetPath("/icons/pencil.png")} alt="Edit" className="w-5 h-5 group-hover/pencil:invert transition-all" />
                                             </div>
                                         </div>
 

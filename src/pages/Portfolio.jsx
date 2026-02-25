@@ -1,5 +1,5 @@
-import React from "react";
 import GenerativeCanvas from "../components/GenerativeCanvas";
+import { getAssetPath } from "../utils/paths";
 
 export default function Portfolio() {
   return (
@@ -19,7 +19,7 @@ export default function Portfolio() {
           <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-black"></div>
 
           <iframe
-            src="/design-portfolio.pdf#toolbar=0"
+            src={getAssetPath("/design-portfolio.pdf#toolbar=0")}
             title="Design Portfolio PDF"
             className="w-full h-full"
             style={{

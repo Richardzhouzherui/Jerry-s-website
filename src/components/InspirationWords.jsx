@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
+import { getAssetPath } from '../utils/paths';
 
 const InspirationWords = ({
     containerHeight = 600,
@@ -101,8 +101,8 @@ const InspirationWords = ({
         if (savedItems) {
             initialData = JSON.parse(savedItems);
             // Ensure the new PINTR image is included if it's missing (one-time migration)
-            if (!initialData.some(item => item.content === '/photos/pintr-1.png')) {
-                initialData.push({ type: 'image', content: '/photos/pintr-1.png' });
+            if (!initialData.some(item => item.content === getAssetPath('/photos/pintr-1.png'))) {
+                initialData.push({ type: 'image', content: getAssetPath('/photos/pintr-1.png') });
                 localStorage.setItem('inspiration_items', JSON.stringify(initialData));
             }
         } else {
@@ -113,7 +113,7 @@ const InspirationWords = ({
             ];
             initialData = [
                 ...defaultWords.map(w => ({ type: 'text', content: w })),
-                { type: 'image', content: '/photos/pintr-1.png' }
+                { type: 'image', content: getAssetPath('/photos/pintr-1.png') }
             ];
         }
 
@@ -298,7 +298,7 @@ const InspirationWords = ({
                         </div>
                     ) : (
                         <img
-                            src={item.content}
+                            src={getAssetPath(item.content)}
                             alt="inspiration"
                             style={{ maxWidth: '120px', maxHeight: '100px', objectFit: 'contain' }}
                             draggable={false}
@@ -315,7 +315,7 @@ const InspirationWords = ({
                         }}
                     >
                         <img
-                            src="/icons/trash.png"
+                            src={getAssetPath("/icons/trash.png")}
                             alt="Delete"
                             className="w-3 h-3 group-hover/trash:invert transition-all"
                         />

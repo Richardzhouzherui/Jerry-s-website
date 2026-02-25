@@ -181,7 +181,7 @@ export default function PhoalbumBook({
                 >
                   <div className="cover-visual-content">
                     <img
-                      src="/phoalbum-cover.png"
+                      src={getAssetPath("/phoalbum-cover.png")}
                       alt="Phoalbum Cover"
                       className="cover-img"
                       style={{ objectFit: "cover", background: "#fff" }}
@@ -189,7 +189,7 @@ export default function PhoalbumBook({
                     <div className="cover-glare" />
                   </div>
                   <img
-                    src="/frame-194.png"
+                    src={getAssetPath("/frame-194.png")}
                     alt="Cover Overlay"
                     className="cover-overlay-img"
                     style={{ transform: `scale(${overlayScale})` }}
@@ -330,7 +330,7 @@ export default function PhoalbumBook({
                 Click here to enter this chapter (^o^)
               </span>
               <img
-                src="/enter-arrow.png"
+                src={getAssetPath("/enter-arrow.png")}
                 alt="Enter"
                 style={{
                   height: '35px', /* ▲ 调整箭头图片大小 */
