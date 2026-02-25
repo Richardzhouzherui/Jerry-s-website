@@ -60,7 +60,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 relative">
             <img
-              src={getAssetPath("/avatar.png")}
+              src={getAssetPath("/avatar.webp")}
               alt="icon"
               className={`absolute top-1/2 left-[-25px] -translate-y-1/2 w-14 h-14 max-w-none object-contain transition-all ${isDark ? "invert" : ""}`}
             />

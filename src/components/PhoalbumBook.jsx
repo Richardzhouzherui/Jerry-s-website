@@ -137,7 +137,7 @@ export default function PhoalbumBook({
               onClick={handleOpen}
               style={{ left: hintX, top: hintY, scale: hintScale, rotate: -5 }}
             >
-              <img src={getAssetPath("/cover_arrow.png")} alt="Click the book" className="click-hint-img" loading="lazy" />
+              <img src={getAssetPath("/cover_arrow.webp")} alt="Click the book" className="click-hint-img" loading="lazy" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -181,7 +181,7 @@ export default function PhoalbumBook({
                 >
                   <div className="cover-visual-content">
                     <img
-                      src={getAssetPath("/phoalbum-cover.png")}
+                      src={getAssetPath("/phoalbum-cover.webp")}
                       alt="Phoalbum Cover"
                       className="cover-img"
                       style={{ objectFit: "cover", background: "#fff" }}
@@ -190,7 +190,7 @@ export default function PhoalbumBook({
                     <div className="cover-glare" />
                   </div>
                   <img
-                    src={getAssetPath("/frame-194.png")}
+                    src={getAssetPath("/frame-194.webp")}
                     alt="Cover Overlay"
                     className="cover-overlay-img"
                     style={{ transform: `scale(${overlayScale})` }}
@@ -334,7 +334,7 @@ export default function PhoalbumBook({
                 Click here to enter this chapter (^o^)
               </span>
               <img
-                src={getAssetPath("/enter-arrow.png")}
+                src={getAssetPath("/enter-arrow.webp")}
                 alt="Enter"
                 style={{
                   height: '35px', /* ▲ 调整箭头图片大小 */

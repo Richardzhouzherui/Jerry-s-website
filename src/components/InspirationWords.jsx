@@ -102,8 +102,8 @@ const InspirationWords = ({
         if (savedItems) {
             initialData = JSON.parse(savedItems);
             // Ensure the new PINTR image is included if it's missing (one-time migration)
-            if (!initialData.some(item => item.content === getAssetPath('/photos/pintr-1.png'))) {
-                initialData.push({ type: 'image', content: getAssetPath('/photos/pintr-1.png') });
+            if (!initialData.some(item => item.content === getAssetPath('/photos/pintr-1.webp'))) {
+                initialData.push({ type: 'image', content: getAssetPath('/photos/pintr-1.webp') });
                 localStorage.setItem('inspiration_items', JSON.stringify(initialData));
             }
         } else {
@@ -114,7 +114,7 @@ const InspirationWords = ({
             ];
             initialData = [
                 ...defaultWords.map(w => ({ type: 'text', content: w })),
-                { type: 'image', content: getAssetPath('/photos/pintr-1.png') }
+                { type: 'image', content: getAssetPath('/photos/pintr-1.webp') }
             ];
         }
 
@@ -316,7 +316,7 @@ const InspirationWords = ({
                         }}
                     >
                         <img
-                            src={getAssetPath("/icons/trash.png")}
+                            src={getAssetPath("/icons/trash.webp")}
                             alt="Delete"
                             className="w-3 h-3 group-hover/trash:invert transition-all"
                         />

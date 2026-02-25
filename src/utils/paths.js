@@ -1,7 +1,7 @@
 /**
  * Helper to handle asset paths correctly across local and production (GH Pages)
  * 
- * Usage: getAssetPath('/myImage.png') -> '/Jerry-s-website/myImage.png' (prod)
+ * Usage: getAssetPath('/myImage.webp') -> '/Jerry-s-website/myImage.webp' (prod)
  */
 export const getAssetPath = (path) => {
     // If path already starts with the repo name or is a full URL, return as is
