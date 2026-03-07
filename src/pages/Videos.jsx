@@ -9,7 +9,7 @@ const videoData = [
         title: "【Gaudi in Zootopia】-疯狂动物城的“蛇姥姥”原来是高迪！？",
         description: "Last week I finally caught Zootopia 2. When Snake Town appeared, I nearly leapt out of my seat: “Blimey, isn’t that Casa Batlló?” Crawling Valley strongly echoes Gaudí’s style, so I decided to explore the animators’ inspirations through the official art book while introducing Gaudí’s legacy. Join me as we revisit Zootopia and take a virtual tour of Casa Batlló!\n---上周终于有时间去看疯狂动物城2了，看到蛇镇我突然跃起（）：欸，这不是巴特罗之家吗？整个爬行谷太像高迪的风格了，于是很想做一期视频，从官方设定集里去解读一下迪士尼动画设计师的设计以及带大家了解一下高迪，欢迎大家和我一起重新回到动物城也去巴特罗之家云旅游一下～",
         cover: getAssetPath("/video-cover-1.png"),
-        previewVideo: getAssetPath("/zootopia-full.mp4"),
+        previewVideo: getAssetPath("/zootopia-preview.mp4"),
         bvid: "BV1DrqnBvE1X",
         embedUrl: "https://www.xiaohongshu.com/discovery/item/6943ad95000000001b031bd2?source=webshare&xhsshare=pc_web&xsec_token=ABtH-tVaW8XrBAikx0KlPBQA5SgxoKa1twuASBoYD1Jhg=&xsec_source=pc_share",
         bilibiliUrl: "https://www.bilibili.com/video/BV1DrqnBvE1X/",
@@ -24,7 +24,7 @@ const videoData = [
         title: "【Evolution of iOS UI】-iOS19即将发布？你还记得它以前的样子吗",
         description: "Whilst browsing online recently, I discovered that iOS 19 is about to be released. On a whim, I decided to take a look at the evolution of Apple's UI over the years, which led to this video. I hope you all enjoy it!\n---最近在网上冲浪发现iOS19即将发布，突发奇想看看苹果UI这些年的发展历程，于是有了这期视频，希望大家能够喜欢～",
         cover: getAssetPath("/ios-cover.png"),
-        previewVideo: getAssetPath("/ios-preview.mp4"),
+        previewVideo: getAssetPath("/ios-clip.mp4"),
         bvid: "BV1xbRXYKEkv",
         embedUrl: "https://www.xiaohongshu.com/discovery/item/67ea723b000000001a0065c2?source=webshare&xhsshare=pc_web&xsec_token=ABtLCo0JXEQcgDabm2DLz_-ixM3HhFdb-CoGLdqZbknX4=&xsec_source=pc_share",
         bilibiliUrl: "https://www.bilibili.com/video/BV1xbRXYKEkv/",
@@ -39,7 +39,7 @@ const videoData = [
         title: "【Red Dot Award Experience】-什么！我们去到红点奖现场了？！",
         description: "Thank you all for watching! Moving forward, I plan to create more engaging videos, primarily organised into two series: the “Origin” series and the “Source” series. “Origin” will delve into design concepts and the stories behind them; “Source” will explore the inner self through travel and gather inspiration.\n---感谢大家的观看～～ 未来计划我也计划做更多有意思的视频，主要分为两个系列：“启”系列和“源”系列。“启”即讲解设计及背后的故事；“源”即通过旅行探寻内心本源&积累灵感",
         cover: getAssetPath("/reddot-cover.jpg"),
-        previewVideo: getAssetPath("/reddot-full.mp4"),
+        previewVideo: getAssetPath("/reddot-clip.mp4"),
         bvid: null,
         embedUrl: "https://www.xiaohongshu.com/discovery/item/6768ad7b000000000b00dc14?source=webshare&xhsshare=pc_web&xsec_token=ABHwjQasaLm1eeuBgZQocEVzvzoFf5tAGCmZUpKd0KlIk=&xsec_source=pc_share",
         stats: {
@@ -88,6 +88,7 @@ const VideoCard = ({ item, isActive, onClick, position, total }) => {
             onClick={onClick}
         >
             <div className="relative aspect-[4/3] bg-black shadow-2xl rounded-sm border border-white/5">
+                {/* Cover image — fades out on hover when the 20s clip plays */}
                 <AnimatePresence>
                     {!isHovered && (
                         <motion.img
@@ -101,6 +102,7 @@ const VideoCard = ({ item, isActive, onClick, position, total }) => {
                     )}
                 </AnimatePresence>
 
+                {/* 20s preview clip — plays on hover on both local and GH Pages */}
                 {isActive && (
                     <video
                         ref={videoRef}
@@ -290,7 +292,9 @@ export default function Videos() {
 
                                 {/* Video Player */}
                                 <div className="flex-[2.5] aspect-video bg-black shadow-2xl border border-white/10 relative overflow-hidden">
-                                    {selectedVideo.bvid ? (
+                                    {/* Production (GH Pages): use Bilibili iframe if bvid available */}
+                                    {/* Development (local): always use local video file */}
+                                    {import.meta.env.PROD && selectedVideo.bvid ? (
                                         <iframe
                                             src={`//player.bilibili.com/player.html?bvid=${selectedVideo.bvid}&page=1&high_quality=1&danmaku=0&autoplay=1`}
                                             scrolling="no"

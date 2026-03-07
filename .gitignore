@@ -24,8 +24,10 @@ dist-ssr
 *.sw?
 ._*
 
-# Media
-public/*.mp4
+# Media - exclude large full videos, allow small preview clips
+public/ios-preview.mp4
+public/zootopia-full.mp4
+public/reddot-full.mp4
 public/*.mov
 public/design/*.webp
 node_modules/
